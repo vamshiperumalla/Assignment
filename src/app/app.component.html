@@ -1,21 +1,64 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<nav class="navbar navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">Movies API</a>
+</nav>
 
-<router-outlet></router-outlet>
+<div *ngIf="error" class="alert alert-danger" role="alert" style="margin-top: 5px;">
+  {{ error }}
+</div>
+
+<div class="container" style="margin-top: 50px;">
+  <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Select a character
+    </button>
+    <div class="dropdown-menu">
+      <button *ngFor="let char of characters" class="dropdown-item" (click)="getCharacter(char)">{{ char.name }}</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" style="position: absolute; top: 50%; left: 50%;" class="spinner-border text-primary" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+
+<div *ngIf="characterInfo">
+  <div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">Bio</h1>
+        <p class="lead">Information about the character you have selected and the movies in which the individual has acted in</p>
+        <hr class="my-4">
+
+        <div class="list-group">
+          <div class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-start">
+              <h5 class="mb-1">Name</h5>
+              <span style="margin-right:10px; margin-left: 10px;">:</span>
+              <p>{{ characterInfo.name }}</p>
+            </div>
+          </div>
+          <div class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-start">
+              <h5 class="mb-1">Gender</h5>
+              <span style="margin-right:10px; margin-left: 10px;">:</span>
+              <p>{{ characterInfo.gender }}</p>
+            </div>
+          </div>
+          <div class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-start">
+              <h5 class="mb-1">Filmography</h5>
+              <span style="margin-right:10px; margin-left: 10px;">:</span>
+            </div>
+            <ul class="list-group">
+              <li *ngFor="let movie of movies" class="list-group-item">
+                <div class="d-flex w-100 justify-content-start">
+                  <div>Title: {{ movie.title }} |</div>
+
+                  <div style="margin-left: 5px;">Released Date: {{ movie.release_date | date: 'fullDate' }}</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
